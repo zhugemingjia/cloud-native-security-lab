@@ -8,3 +8,9 @@
 ### 1. 应用配置文件
 ```bash
 kubectl apply -f manifests/
+
+### 端口转发
+```bash
+kubectl port-forward svc/dvwa-service 8080:80
+
+###之后就能通过节点IP+映射端口访问到DVWA
