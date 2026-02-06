@@ -14,3 +14,7 @@ kubectl apply -f manifests/
 kubectl port-forward svc/dvwa-service 8080:80
 
 ###之后就能通过节点IP+映射端口访问到DVWA
+
+###
+用户名：admin
+密码：password
