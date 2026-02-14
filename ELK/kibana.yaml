@@ -1,0 +1,17 @@
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: quickstart
+  namespace: log
+spec:
+  version: 8.15.0
+  count: 1
+  elasticsearchRef:
+    name: quickstart
+  http:
+    service:
+      spec:
+        type: ClusterIP   # 明确使用 ClusterIP，也可以省略此项（默认就是 ClusterIP）
+        ports:
+        - port: 5601
+          targetPort: 5601

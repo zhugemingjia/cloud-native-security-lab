@@ -1,0 +1,54 @@
+apiVersion: beat.k8s.elastic.co/v1beta1
+kind: Beat
+metadata:
+  name: quickstart
+  namespace: log
+spec:
+  type: filebeat
+  version: 8.15.0
+  elasticsearchRef:
+    name: quickstart
+  config:
+    filebeat.inputs:
+    - type: container
+      paths:
+      - /var/log/containers/*.log
+      processors:
+      - add_kubernetes_metadata:
+          in_cluster: true
+  daemonSet:
+    podTemplate:
+      spec:
+        automountServiceAccountToken: true
+        securityContext:
+          runAsUser: 0
+        containers:
+        - name: filebeat
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "100m"
+            limits:
+              memory: "200Mi"
+              cpu: "200m"
+          volumeMounts:
+          - name: varlogcontainers
+            mountPath: /var/log/containers
+          - name: varlogpods
+            mountPath: /var/log/pods
+          - name: varlibdockercontainers
+            mountPath: /var/lib/docker/containers
+          - name: data
+            mountPath: /usr/share/filebeat/data
+        volumes:
+        - name: varlogcontainers
+          hostPath:
+            path: /var/log/containers
+        - name: varlogpods
+          hostPath:
+            path: /var/log/pods
+        - name: varlibdockercontainers
+          hostPath:
+            path: /var/lib/docker/containers
+        - name: data
+          emptyDir: {}
