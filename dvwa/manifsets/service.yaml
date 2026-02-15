@@ -6,11 +6,9 @@ metadata:
   labels:
     app: dvwa
 spec:
-  type: NodePort
+  type: ClusterIP ##统一内部服务地址，外部暴露由ingress统一
   selector:
     app: dvwa
   ports:
   - port: 80          # Service 监听的端口
     targetPort: 80    # Pod 中容器暴露的端口
-    nodePort: 30080
-    protocol: TCP
