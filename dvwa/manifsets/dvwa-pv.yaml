@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata: 
+  name: dvwa-mysql-pv-nfs
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs
+  nfs:
+    path: /root/data/dvwa
+    server: 192.168.100.100
+
